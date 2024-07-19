@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bpy = "==4.1.0"
+pillow = "==10.4.0"
+python-zerolog = "==0.1.0"
+
+[dev-packages]
+black = "==24.4.2"
+pre-commit = "==3.7.1"
+
+[requires]
+python_version = "3.11" # needs to match Blender's version
