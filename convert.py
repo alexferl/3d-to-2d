@@ -117,6 +117,12 @@ parser.add_argument(
     help="Renders output directory path (default %(default)s)",
 )
 parser.add_argument(
+    "--output-suffix",
+    type=str,
+    default=None,
+    help="Add a suffix to the output file name before the direction and frame numbers (default %(default)s)",
+)
+parser.add_argument(
     "--render-one-frame",
     default=False,
     action="store_true",
@@ -259,8 +265,6 @@ def _rotate_camera(camera: Camera, angle: float):
 
 
 def _clear_folder(folder_path: str):
-    os.makedirs(folder_path, exist_ok=True)
-
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
         try:
@@ -295,8 +299,13 @@ def render(
 
         for frame in range(start_frame, end_frame + 1):
             bpy.context.scene.frame_set(frame)
-            fmt = f"{args.renders_output_path}/{model_name}_{animation_name}_{direction:02d}_{frame:04d}"
-            bpy.context.scene.render.filepath = fmt
+
+            file_name = f"{args.renders_output_path}/{model_name}_{animation_name}"
+            if args.output_suffix:
+                file_name += f"_{args.output_suffix}"
+            file_name += f"_{direction:02d}_{frame:04d}"
+
+            bpy.context.scene.render.filepath = file_name
             bpy.ops.render.render(write_still=True)
 
 
@@ -336,9 +345,12 @@ def create_sprite_sheets(model_name: str, animation_name: str):
             y = (index // columns) * resized_size[1]
             sprite_sheet.paste(img, (x, y))
 
-        output_file = os.path.join(
-            output_dir, f"{model_name}_{animation_name}_{direction:02d}.png"
-        )
+        file_name = f"{model_name}_{animation_name}"
+        if args.output_suffix:
+            file_name += f"_{args.output_suffix}"
+        file_name += f"_{direction:02d}.png"
+
+        output_file = os.path.join(output_dir, file_name)
         sprite_sheet.save(output_file)
         log.info().msg(f"sprite sheet saved as {output_file}")
 

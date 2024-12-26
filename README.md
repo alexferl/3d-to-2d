@@ -63,3 +63,38 @@ See which other settings are available with:
 ```shell
 python convert.py --help
 ```
+
+python convert.py \
+    --model-file-path=files/Barbarian.fbx \
+    --model-armature-name=Rig \
+    --model-action-name=1H_Melee_Attack_Chop \
+    --model-excluded-meshes=1H_Axe_Offhand,2H_Axe,Barbarian_Cape,Mug
+    --output-suffix=Body
+
+python convert.py \
+    --model-file-path=files/Barbarian.fbx \
+    --model-armature-name=Rig \
+    --model-action-name=Idle \
+    --model-included-meshes=Barbarian_ArmLeft \
+    --output-suffix=ArmLeft
+
+python convert.py \
+    --model-file-path=files/Barbarian.fbx \
+    --model-armature-name=Rig \
+    --model-action-name=Idle \
+    --model-included-meshes=1H_Axe,Barbarian_ArmRight \
+    --output-suffix=ArmRight
+
+python convert.py \
+    --model-file-path=files/Barbarian.fbx \
+    --model-armature-name=Rig \
+    --model-action-name=1H_Melee_Attack_Chop \
+    --model-included-meshes=1H_Axe \
+    --output-suffix=1H_Axe
+
+python convert.py \
+    --model-file-path=files/Barbarian.fbx \
+    --model-armature-name=Rig \
+    --model-action-name=1H_Melee_Attack_Chop \
+    --model-included-meshes=Barbarian_Round_Shield \
+    --output-suffix=Shield
